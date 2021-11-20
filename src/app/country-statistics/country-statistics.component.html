@@ -1,0 +1,19 @@
+<form [formGroup]="countryForm">
+  <select formControlName="country" (change)="selectCountry()">
+    <option *ngFor="let country of countriesArray" value="{{ country.name }}">
+      {{ country.name }}
+    </option>
+  </select>
+</form>
+
+<p>population: {{ population }}</p>
+<p>latest information update: {{ updatedAt }}</p>
+<p>death rate: {{ deathRate }}</p>
+<p>recovery rate: {{ recoveryRate }}</p>
+
+<div echarts [options]="option"></div>
+
+<!-- 
+<p>{{ b }}</p>
+<p>{{ c }}</p>
+<p>{{ d }}</p> -->
