@@ -10,7 +10,7 @@ import { ApiService } from '../shared/api.service';
 })
 export class GeneralStatisticsComponent implements OnInit {
   generalArray: any;
-  option!: EChartsOption;
+  lineChart!: EChartsOption;
   dateForm!: FormGroup;
 
   constructor(private api: ApiService) {}
@@ -18,6 +18,7 @@ export class GeneralStatisticsComponent implements OnInit {
   ngOnInit(): void {
     this.api.getGeneralData().subscribe((array: any) => {
       this.generalArray = array.data;
+      this.showData(this.generalArray[0]);
     });
 
     this.dateForm = new FormGroup({
@@ -29,41 +30,26 @@ export class GeneralStatisticsComponent implements OnInit {
     let newArray = this.generalArray.filter(
       (object: any) => object.date == this.dateForm.value.date
     )[0];
-    this.option = {
-      title: {
-        text: 'General Chart',
-        left: 'center',
-      },
+
+    this.showData(newArray);
+  }
+
+  showData(data: any) {
+    this.lineChart = {
       tooltip: {
-        trigger: 'item',
-        formatter: '{a} <br/>{b} : {c} ({d}%)',
+        trigger: 'axis'
       },
-      toolbox: {
-        show: true,
-        feature: {
-          mark: { show: true },
-          dataView: { show: true, readOnly: false },
-          restore: { show: true },
-        },
+      xAxis: {
+        type: 'category',
+        data: ['Confirmed', 'Deaths', 'Recovered'],
+      },
+      yAxis: {
+        type: 'value',
       },
       series: [
         {
-          name: 'Area Mode',
-          type: 'pie',
-          radius: [20, 140],
-          center: ['50%', '50%'],
-          roseType: 'area',
-          itemStyle: {
-            borderRadius: 5,
-          },
-          data: [
-            { value: newArray.confirmed, name: 'Confirmed' },
-            { value: newArray.new_confirmed, name: 'New Confirmed' },
-            { value: newArray.deaths, name: 'Deaths' },
-            { value: newArray.new_deaths, name: 'New Deaths' },
-            { value: newArray.recovered, name: 'Recovered' },
-            { value: newArray.new_recovered, name: 'New Recovered' },
-          ],
+          data: [data.confirmed, data.deaths, data.recovered],
+          type: 'line',
         },
       ],
     };

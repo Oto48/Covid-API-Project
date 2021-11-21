@@ -8,12 +8,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CountryStatisticsComponent } from './country-statistics/country-statistics.component';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     GeneralStatisticsComponent,
     CountryStatisticsComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,

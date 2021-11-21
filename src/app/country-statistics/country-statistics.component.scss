@@ -1,0 +1,23 @@
+form{
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  width: 100%;
+}
+
+.chart {
+  width: 50%;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.chartData {
+  margin-top: 100px;
+}

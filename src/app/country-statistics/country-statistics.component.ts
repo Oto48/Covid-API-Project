@@ -14,6 +14,13 @@ export class CountryStatisticsComponent implements OnInit {
   countriesArray: any;
   countryForm!: FormGroup;
   option!: EChartsOption;
+  barChart!: EChartsOption;
+
+  countryData: any;
+  fullData: any;
+  monthlyData: any;
+
+  validData: boolean = true;
 
   population: any;
   updatedAt: any;
@@ -38,35 +45,44 @@ export class CountryStatisticsComponent implements OnInit {
   }
 
   selectCountry() {
-    console.log(this.countryForm.value.country);
     let country = this.countriesArray.filter(
       (country: any) => country.name == this.countryForm.value.country
     )[0];
+    if (country.timeline.length !== 0) {
+      this.validData = true;
+      this.fullData = country.timeline;
+      if (
+        this.fullData[0].date > this.fullData[this.fullData.length - 1].date
+      ) {
+        this.fullData.reverse();
+      }
+      if (this.fullData.length === 123) {
+        this.fullData.shift();
+      }
+      this.countryData = country;
+      this.monthlyData = this.fullData.slice(-90);
+      this.showFullData();
+    } else {
+      this.validData = false;
+      alert('ok');
+    }
+  }
 
-    let timeline = country.timeline.reverse();
+  showFullData() {
+    this.showChart(this.fullData);
+  }
 
-    this.population = country.population;
-    this.updatedAt = country.updated_at;
-    this.deathRate = country.latest_data.calculated.death_rate;
-    this.recoveryRate = country.latest_data.calculated.recovery_rate;
-    this.casePerMillion =
-      country.latest_data.calculated.cases_per_million_population;
-    this.confirmed = country.latest_data.calculated.confirmed;
-    this.confirmedToday = country.today.confirmed;
-    this.deaths = country.latest_data.calculated.deaths;
-    this.deathsToday = country.today.deaths;
-    this.recovered = country.latest_data.calculated.recovered;
-    // this.recoveredToday = country.today.recovered;
+  showMonthlyData() {
+    this.showChart(this.monthlyData);
+  }
 
+  showChart(data: any) {
     this.option = {
-      title: {
-        text: 'Stacked Line',
-      },
       tooltip: {
         trigger: 'axis',
       },
       legend: {
-        data: ['Confirmed', 'Deaths'],
+        data: ['Total Confirmed', 'Total Deaths', 'Total Recovered'],
       },
       grid: {
         left: '3%',
@@ -74,15 +90,10 @@ export class CountryStatisticsComponent implements OnInit {
         bottom: '3%',
         containLabel: true,
       },
-      toolbox: {
-        feature: {
-          saveAsImage: {},
-        },
-      },
       xAxis: {
         type: 'category',
         boundaryGap: false,
-        data: timeline.map((data: any) => ({
+        data: data.map((data: any) => ({
           value: data.date,
         })),
       },
@@ -91,77 +102,82 @@ export class CountryStatisticsComponent implements OnInit {
       },
       series: [
         {
-          name: 'Confirmed',
+          name: 'Total Confirmed',
           type: 'line',
           showSymbol: false,
-          stack: 'Total',
-          data: timeline.map((data: any) => ({
+          data: data.map((data: any) => ({
             value: data.confirmed,
           })),
         },
         {
-          name: 'Deaths',
+          name: 'Total Deaths',
           type: 'line',
           showSymbol: false,
-          stack: 'Total',
-          data: timeline.map((data: any) => ({
+          data: data.map((data: any) => ({
             value: data.deaths,
+          })),
+        },
+        {
+          name: 'Total Recovered',
+          type: 'line',
+          showSymbol: false,
+          data: data.map((data: any) => ({
+            value: data.recovered,
+          })),
+        },
+      ],
+    };
+
+    this.barChart = {
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'cross',
+          crossStyle: {
+            color: '#999',
+          },
+        },
+      },
+      legend: {
+        data: ['Daily Confirmed', 'Daily Deaths', 'Daily Recovered'],
+      },
+      xAxis: [
+        {
+          type: 'category',
+          data: data.map((data: any) => ({
+            value: data.date,
+          })),
+          axisPointer: {
+            type: 'shadow',
+          },
+        },
+      ],
+      yAxis: {
+        type: 'value',
+      },
+      series: [
+        {
+          name: 'Daily Confirmed',
+          type: 'bar',
+          data: data.map((data: any) => ({
+            value: data.new_confirmed,
+          })),
+        },
+        {
+          name: 'Daily Deaths',
+          type: 'bar',
+          data: data.map((data: any) => ({
+            value: data.new_deaths,
+          })),
+        },
+        {
+          name: 'Daily Recovered',
+          type: 'bar',
+          data: data.map((data: any) => ({
+            value: data.new_recovered,
           })),
         },
       ],
     };
   }
 }
-
-// this.option = {
-//   title: {
-//     text: 'Stacked Line',
-//   },
-//   tooltip: {
-//     trigger: 'axis',
-//   },
-//   legend: {
-//     data: ['Confirmed', 'Deaths'],
-//   },
-//   grid: {
-//     left: '3%',
-//     right: '4%',
-//     bottom: '3%',
-//     containLabel: true,
-//   },
-//   toolbox: {
-//     feature: {
-//       saveAsImage: {},
-//     },
-//   },
-//   xAxis: {
-//     type: 'category',
-//     boundaryGap: false,
-//     data: this.test.map((data: any) => ({
-//       value: data.date,
-//     })),
-//   },
-//   yAxis: {
-//     type: 'value',
-//   },
-//   series: [
-//     {
-//       name: 'Confirmed',
-//       type: 'line',
-//       showSymbol: false,
-//       stack: 'Total',
-//       data: this.test.map((data: any) => ({
-//         value: data.confirmed,
-//       })),
-//     },
-//     {
-//       name: 'Deaths',
-//       type: 'line',
-//       showSymbol: false,
-//       stack: 'Total',
-//       data: this.test.map((data: any) => ({
-//         value: data.deaths,
-//       })),
-//     },
-//   ],
-// };

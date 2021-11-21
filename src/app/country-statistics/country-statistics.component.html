@@ -1,4 +1,5 @@
 <form [formGroup]="countryForm">
+  <label>Select a country: </label>
   <select formControlName="country" (change)="selectCountry()">
     <option *ngFor="let country of countriesArray" value="{{ country.name }}">
       {{ country.name }}
@@ -6,14 +7,31 @@
   </select>
 </form>
 
-<p>population: {{ population }}</p>
-<p>latest information update: {{ updatedAt }}</p>
-<p>death rate: {{ deathRate }}</p>
-<p>recovery rate: {{ recoveryRate }}</p>
+<div *ngIf="countryData">
+  <p>Population: {{ countryData.population }}</p>
+  <p>Latest information update: {{ countryData.updated_at }}</p>
+  <p>Death rate: {{ countryData.latest_data.calculated.death_rate }}</p>
+  <p>Recovery rate: {{ countryData.latest_data.calculated.recovery_rate }}</p>
+  <p>
+    Cases per million population:
+    {{ countryData.latest_data.calculated.cases_per_million_population }}
+  </p>
+  <p>Total number of cases: {{ countryData.latest_data.confirmed }}</p>
+  <p>Number of current date cases: {{ countryData.today.confirmed }}</p>
+  <p>Total number of death: {{ countryData.latest_data.deaths }}</p>
+  <p>
+    The number of deaths of the current date: {{ countryData.today.deaths }}
+  </p>
+  <p>Total number of recoveries: {{ countryData.latest_data.recovered }}</p>
+</div>
 
-<div echarts [options]="option"></div>
-
-<!-- 
-<p>{{ b }}</p>
-<p>{{ c }}</p>
-<p>{{ d }}</p> -->
+<div class="chartData" *ngIf="validData">
+  <div class="container">
+    <div echarts [options]="option" class="chart"></div>
+    <div echarts [options]="barChart" class="chart"></div>
+  </div>
+  <div *ngIf="fullData" class="buttons">
+    <button (click)="showFullData()">show full</button>
+    <button (click)="showMonthlyData()">show monthly</button>
+  </div>
+</div>
