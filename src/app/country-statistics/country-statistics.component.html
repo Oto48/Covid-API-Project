@@ -5,6 +5,7 @@
       {{ country.name }}
     </option>
   </select>
+  <p *ngIf="!countriesArray">Waiting for API data...</p>
 </form>
 
 <div *ngIf="countryData && validData" class="data-container">
