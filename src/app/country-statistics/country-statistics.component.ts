@@ -15,6 +15,7 @@ export class CountryStatisticsComponent implements OnInit {
   countryForm: FormGroup;
   option: EChartsOption;
   barChart: EChartsOption;
+  title: string;
 
   countryData: any;
   fullData: any;
@@ -56,10 +57,12 @@ export class CountryStatisticsComponent implements OnInit {
   }
 
   showFullData() {
+    this.title = 'FUll statistics';
     this.showChart(this.fullData);
   }
 
   showMonthlyData() {
+    this.title = 'Last 3 months statistics';
     this.showChart(this.monthlyData);
   }
 

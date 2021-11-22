@@ -52,18 +52,19 @@
 </div>
 
 <div class="chartData" *ngIf="validData">
+  <p class="title">{{ title }}</p>
   <div class="container">
     <div echarts [options]="option" class="chart"></div>
     <div echarts [options]="barChart" class="chart"></div>
   </div>
   <div *ngIf="fullData" class="buttons">
     <app-button
-      text="Show full data"
+      text="Full statistics"
       [style]="'green'"
       (click)="showFullData()"
     ></app-button>
     <app-button
-      text="Show monthly data"
+      text="Last 3 months statistics"
       [style]="'yellow'"
       (click)="showMonthlyData()"
     ></app-button>

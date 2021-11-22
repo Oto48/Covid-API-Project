@@ -16,6 +16,7 @@ export class GeneralStatisticsComponent implements OnInit {
   lastData: any;
   maxDate: string;
   minDate: string;
+  title: string;
 
   constructor(private api: ApiService) {}
 
@@ -26,7 +27,8 @@ export class GeneralStatisticsComponent implements OnInit {
       this.lastData = this.generalArray[this.generalArray.length - 1];
       this.maxDate = this.generalData.date;
       this.minDate = this.lastData.date;
-      this.showData(this.generalArray[0]);
+      this.title = 'Date: ' + this.generalData.date;
+      this.showData(this.generalData);
     });
 
     this.dateForm = new FormGroup({
@@ -39,6 +41,7 @@ export class GeneralStatisticsComponent implements OnInit {
       (object: any) => object.date == this.dateForm.value.date
     )[0];
     this.generalData = newArray;
+    this.title = 'Date: ' + this.generalData.date;
     this.showData(newArray);
   }
 

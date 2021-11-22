@@ -1,7 +1,16 @@
 <form [formGroup]="dateForm">
   <label>Search by date: </label>
-  <input type="date" formControlName="date" min="{{minDate}}" max="{{maxDate}}"/>
-  <app-button text="search" [style]="'blue'" (click)="dateForm.value.date && search()"></app-button>
+  <input
+    type="date"
+    formControlName="date"
+    min="{{ minDate }}"
+    max="{{ maxDate }}"
+  />
+  <app-button
+    text="search"
+    [style]="'blue'"
+    (click)="dateForm.value.date && search()"
+  ></app-button>
 </form>
 
 <div *ngIf="generalData" class="data-container">
@@ -30,4 +39,8 @@
     <p>{{ generalData.new_recovered }}</p>
   </div>
 </div>
-<div echarts [options]="lineChart"></div>
+
+<div>
+  <p class="title">{{title}}</p>
+  <div echarts [options]="lineChart"></div>
+</div>
