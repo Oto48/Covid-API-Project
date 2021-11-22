@@ -9,15 +9,23 @@ import { ApiService } from '../shared/api.service';
   styleUrls: ['./general-statistics.component.scss'],
 })
 export class GeneralStatisticsComponent implements OnInit {
-  generalArray: any;
-  lineChart!: EChartsOption;
-  dateForm!: FormGroup;
+  generalArray: object[];
+  lineChart: EChartsOption;
+  dateForm: FormGroup;
+  generalData: any;
+  lastData: any;
+  maxDate: string;
+  minDate: string;
 
   constructor(private api: ApiService) {}
 
   ngOnInit(): void {
     this.api.getGeneralData().subscribe((array: any) => {
       this.generalArray = array.data;
+      this.generalData = this.generalArray[0];
+      this.lastData = this.generalArray[this.generalArray.length - 1];
+      this.maxDate = this.generalData.date;
+      this.minDate = this.lastData.date;
       this.showData(this.generalArray[0]);
     });
 
@@ -30,14 +38,14 @@ export class GeneralStatisticsComponent implements OnInit {
     let newArray = this.generalArray.filter(
       (object: any) => object.date == this.dateForm.value.date
     )[0];
-
+    this.generalData = newArray;
     this.showData(newArray);
   }
 
   showData(data: any) {
     this.lineChart = {
       tooltip: {
-        trigger: 'axis'
+        trigger: 'axis',
       },
       xAxis: {
         type: 'category',

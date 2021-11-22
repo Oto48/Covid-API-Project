@@ -12,27 +12,14 @@ export class CountryStatisticsComponent implements OnInit {
   constructor(private api: ApiService) {}
 
   countriesArray: any;
-  countryForm!: FormGroup;
-  option!: EChartsOption;
-  barChart!: EChartsOption;
+  countryForm: FormGroup;
+  option: EChartsOption;
+  barChart: EChartsOption;
 
   countryData: any;
   fullData: any;
   monthlyData: any;
-
   validData: boolean = true;
-
-  population: any;
-  updatedAt: any;
-  deathRate: any;
-  recoveryRate: any;
-  casePerMillion: any;
-  confirmed: any;
-  confirmedToday: any;
-  deaths: any;
-  deathsToday: any;
-  recovered: any;
-  recoveredToday: any;
 
   ngOnInit(): void {
     this.api.getCountriesData().subscribe((array: any) => {
@@ -64,7 +51,7 @@ export class CountryStatisticsComponent implements OnInit {
       this.showFullData();
     } else {
       this.validData = false;
-      alert('ok');
+      alert('Invalid country data');
     }
   }
 

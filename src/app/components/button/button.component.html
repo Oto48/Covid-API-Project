@@ -1,0 +1,13 @@
+<button
+  [ngClass]="{
+    primary: style === 'primary',
+    green: style === 'green',
+    blue: style === 'blue',
+    yellow: style === 'yellow',
+    small: size === 'small',
+    medium: size === 'medium',
+    large: size === 'large'
+  }"
+>
+  {{ text }}
+</button>

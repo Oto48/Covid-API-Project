@@ -1,5 +1,33 @@
 <form [formGroup]="dateForm">
-  <input type="date" formControlName="date"/>
-  <button (click)="search()">search</button>
+  <label>Search by date: </label>
+  <input type="date" formControlName="date" min="{{minDate}}" max="{{maxDate}}"/>
+  <app-button text="search" [style]="'blue'" (click)="dateForm.value.date && search()"></app-button>
 </form>
+
+<div *ngIf="generalData" class="data-container">
+  <div>
+    <p>Total number of cases</p>
+    <p>{{ generalData.confirmed }}</p>
+  </div>
+  <div>
+    <p>Number of current date cases</p>
+    <p>{{ generalData.new_confirmed }}</p>
+  </div>
+  <div>
+    <p>Total number of deaths</p>
+    <p>{{ generalData.deaths }}</p>
+  </div>
+  <div>
+    <p>The number of deaths of the current date</p>
+    <p>{{ generalData.new_deaths }}</p>
+  </div>
+  <div>
+    <p>Total number of recoveries</p>
+    <p>{{ generalData.recovered }}</p>
+  </div>
+  <div>
+    <p>Number of current date recoveries</p>
+    <p>{{ generalData.new_recovered }}</p>
+  </div>
+</div>
 <div echarts [options]="lineChart"></div>

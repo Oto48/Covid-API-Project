@@ -1,0 +1,18 @@
+.data-container {
+  div {
+    width: 30%;
+  }
+}
+
+form{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+input {
+  height: 40px;
+  border-radius: 5px;
+  margin: 0 5px;
+  border: 1px solid;
+}

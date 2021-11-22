@@ -9,6 +9,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CountryStatisticsComponent } from './country-statistics/country-statistics.component';
 import { HeaderComponent } from './header/header.component';
+import { ButtonComponent } from './components/button/button.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { HeaderComponent } from './header/header.component';
     GeneralStatisticsComponent,
     CountryStatisticsComponent,
     HeaderComponent,
+    ButtonComponent,
   ],
   imports: [
     BrowserModule,

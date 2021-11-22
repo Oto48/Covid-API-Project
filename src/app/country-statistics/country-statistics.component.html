@@ -7,22 +7,47 @@
   </select>
 </form>
 
-<div *ngIf="countryData">
-  <p>Population: {{ countryData.population }}</p>
-  <p>Latest information update: {{ countryData.updated_at }}</p>
-  <p>Death rate: {{ countryData.latest_data.calculated.death_rate }}</p>
-  <p>Recovery rate: {{ countryData.latest_data.calculated.recovery_rate }}</p>
-  <p>
-    Cases per million population:
-    {{ countryData.latest_data.calculated.cases_per_million_population }}
-  </p>
-  <p>Total number of cases: {{ countryData.latest_data.confirmed }}</p>
-  <p>Number of current date cases: {{ countryData.today.confirmed }}</p>
-  <p>Total number of death: {{ countryData.latest_data.deaths }}</p>
-  <p>
-    The number of deaths of the current date: {{ countryData.today.deaths }}
-  </p>
-  <p>Total number of recoveries: {{ countryData.latest_data.recovered }}</p>
+<div *ngIf="countryData && validData" class="data-container">
+  <div>
+    <p>Population</p>
+    <p>{{ countryData.population }}</p>
+  </div>
+  <div>
+    <p>Latest information update</p>
+    <p>{{ countryData.updated_at }}</p>
+  </div>
+  <div>
+    <p>Death rate</p>
+    <p>{{ countryData.latest_data.calculated.death_rate }}</p>
+  </div>
+  <div>
+    <p>Recovery rate</p>
+    <p>{{ countryData.latest_data.calculated.recovery_rate }}</p>
+  </div>
+  <div>
+    <p>Cases per million population</p>
+    <p>{{ countryData.latest_data.calculated.cases_per_million_population }}</p>
+  </div>
+  <div>
+    <p>Total number of cases</p>
+    <p>{{ countryData.latest_data.confirmed }}</p>
+  </div>
+  <div>
+    <p>Number of current date cases</p>
+    <p>{{ countryData.today.confirmed }}</p>
+  </div>
+  <div>
+    <p>Total number of death</p>
+    <p>{{ countryData.latest_data.deaths }}</p>
+  </div>
+  <div>
+    <p>The number of deaths of the current date</p>
+    <p>{{ countryData.today.deaths }}</p>
+  </div>
+  <div>
+    <p>Total number of recoveries</p>
+    <p>{{ countryData.latest_data.recovered }}</p>
+  </div>
 </div>
 
 <div class="chartData" *ngIf="validData">
@@ -31,7 +56,15 @@
     <div echarts [options]="barChart" class="chart"></div>
   </div>
   <div *ngIf="fullData" class="buttons">
-    <button (click)="showFullData()">show full</button>
-    <button (click)="showMonthlyData()">show monthly</button>
+    <app-button
+      text="Show full data"
+      [style]="'green'"
+      (click)="showFullData()"
+    ></app-button>
+    <app-button
+      text="Show monthly data"
+      [style]="'yellow'"
+      (click)="showMonthlyData()"
+    ></app-button>
   </div>
 </div>

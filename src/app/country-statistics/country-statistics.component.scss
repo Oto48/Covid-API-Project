@@ -1,5 +1,10 @@
-form{
+form {
   text-align: center;
+}
+
+select {
+  height: 30px;
+  font-size: 17px;
 }
 
 .container {
@@ -16,8 +21,10 @@ form{
   align-items: center;
   justify-content: center;
   margin-top: 50px;
+  gap: 1%;
+  padding-bottom: 50px;
 }
 
 .chartData {
-  margin-top: 100px;
+  margin-top: 80px;
 }
