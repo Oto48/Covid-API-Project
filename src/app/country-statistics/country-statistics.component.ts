@@ -44,7 +44,7 @@ export class CountryStatisticsComponent implements OnInit {
       ) {
         this.fullData.reverse();
       }
-      if (this.fullData.length === 123) {
+      if (this.fullData.length === 122) {
         this.fullData.shift();
       }
       this.countryData = country;
