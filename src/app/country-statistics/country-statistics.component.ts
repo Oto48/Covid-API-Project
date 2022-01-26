@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { dataTool, EChartsOption } from 'echarts';
+import { APIResponse, CountryData, Data } from '../models';
 import { ApiService } from '../shared/api.service';
 
 @Component({
@@ -11,19 +12,19 @@ import { ApiService } from '../shared/api.service';
 export class CountryStatisticsComponent implements OnInit {
   constructor(private api: ApiService) {}
 
-  countriesArray: any;
+  countriesArray: Array<CountryData>;
   countryForm: FormGroup;
   option: EChartsOption;
   barChart: EChartsOption;
   title: string;
 
-  countryData: any;
-  fullData: any;
-  monthlyData: any;
+  countryData: CountryData;
+  fullData: Array<Data>;
+  monthlyData: Array<Data>;
   validData: boolean = true;
 
   ngOnInit(): void {
-    this.api.getCountriesData().subscribe((array: any) => {
+    this.api.getCountriesData().subscribe((array: APIResponse<CountryData>) => {
       this.countriesArray = array.data;
     });
 
@@ -34,7 +35,7 @@ export class CountryStatisticsComponent implements OnInit {
 
   selectCountry() {
     let country = this.countriesArray.filter(
-      (country: any) => country.name == this.countryForm.value.country
+      (country: CountryData) => country.name == this.countryForm.value.country
     )[0];
     if (country.timeline.length !== 0) {
       this.validData = true;
@@ -66,7 +67,7 @@ export class CountryStatisticsComponent implements OnInit {
     this.showChart(this.monthlyData);
   }
 
-  showChart(data: any) {
+  showChart(data: Array<Data>) {
     this.option = {
       tooltip: {
         trigger: 'axis',
@@ -83,7 +84,7 @@ export class CountryStatisticsComponent implements OnInit {
       xAxis: {
         type: 'category',
         boundaryGap: false,
-        data: data.map((data: any) => ({
+        data: data.map((data: Data) => ({
           value: data.date,
         })),
       },
@@ -95,7 +96,7 @@ export class CountryStatisticsComponent implements OnInit {
           name: 'Total Confirmed',
           type: 'line',
           showSymbol: false,
-          data: data.map((data: any) => ({
+          data: data.map((data: Data) => ({
             value: data.confirmed,
           })),
         },
@@ -103,7 +104,7 @@ export class CountryStatisticsComponent implements OnInit {
           name: 'Total Deaths',
           type: 'line',
           showSymbol: false,
-          data: data.map((data: any) => ({
+          data: data.map((data: Data) => ({
             value: data.deaths,
           })),
         },
@@ -111,7 +112,7 @@ export class CountryStatisticsComponent implements OnInit {
           name: 'Total Recovered',
           type: 'line',
           showSymbol: false,
-          data: data.map((data: any) => ({
+          data: data.map((data: Data) => ({
             value: data.recovered,
           })),
         },
@@ -134,7 +135,7 @@ export class CountryStatisticsComponent implements OnInit {
       xAxis: [
         {
           type: 'category',
-          data: data.map((data: any) => ({
+          data: data.map((data: Data) => ({
             value: data.date,
           })),
           axisPointer: {
@@ -149,21 +150,21 @@ export class CountryStatisticsComponent implements OnInit {
         {
           name: 'Daily Confirmed',
           type: 'bar',
-          data: data.map((data: any) => ({
+          data: data.map((data: Data) => ({
             value: data.new_confirmed,
           })),
         },
         {
           name: 'Daily Deaths',
           type: 'bar',
-          data: data.map((data: any) => ({
+          data: data.map((data: Data) => ({
             value: data.new_deaths,
           })),
         },
         {
           name: 'Daily Recovered',
           type: 'bar',
-          data: data.map((data: any) => ({
+          data: data.map((data: Data) => ({
             value: data.new_recovered,
           })),
         },
